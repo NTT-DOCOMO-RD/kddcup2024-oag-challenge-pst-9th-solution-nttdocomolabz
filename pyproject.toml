@@ -1,0 +1,64 @@
+[tool.poetry]
+name = "pst"
+version = "0.1.0"
+description = ""
+authors = ["Masato Hashimoto"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9, <3.13"
+sentence-transformers = "^2.7.0"
+torch = {version = "^2.3.0+cu121", source = "torch_cu121"}
+gensim = "^4.3.2"
+fuzzywuzzy = "^0.18.0"
+tqdm = "^4.66.4"
+beautifulsoup4 = "^4.12.3"
+pandas = ">=2.2.1,<2.2.2"
+lxml = "^5.2.1"
+nltk = "^3.8.1"
+lightgbm = "^4.3.0"
+scipy = "1.11.0"
+catboost = "^1.2.5"
+pytorch-tabnet = "^4.1.0"
+xgboost = "^2.0.3"
+cogdl = "^0.6"
+
+cudf-cu12 = { version="^24.4", source="rapids" }
+dask-cudf-cu12 = { version="^24.4", source="rapids" }
+cuml-cu12 = { version="^24.4", source="rapids" }
+cugraph-cu12 = { version="^24.4", source="rapids" }
+cuspatial-cu12 = { version="^24.4", source="rapids" }
+cuproj-cu12 = { version="^24.4", source="rapids" }
+cuxfilter-cu12 = { version="^24.4", source="rapids" }
+cucim-cu12 = { version="^24.4", source="rapids" }
+pylibraft-cu12 = { version="^24.4", source="rapids" }
+raft-dask-cu12 = { version="^24.4", source="rapids" }
+cuvs-cu12 = { version="^24.4", source="rapids" }
+matplotlib = "3.8.4"
+rmm-cu12 = "^24.4.0"
+keybert = "^0.8.4"
+imbalanced-learn = "^0.12.3"
+
+
+[[tool.poetry.source]]
+name="rapids"
+url="https://pypi.nvidia.com"
+priority="supplemental"
+
+
+[[tool.poetry.source]]
+name = "torch_cu121"
+url = "https://download.pytorch.org/whl/cu121"
+priority = "explicit"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.4"
+papermill = "^2.6.0"
+seaborn = "^0.13.2"
+umap-learn = "^0.5.6"
+torchinfo = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -10,7 +10,7 @@
 figure goes here
 
 ## Requires
-- Linux (Amazon linux 2 was used in our team)
+- Linux (Our team used Amazon linux 2)
 - CUDA 12.1.0
 
 ## Environment setup
@@ -31,77 +31,156 @@ $ <Inside-container> poetry install
   - OAG V3.1 dataset Publication data available at [here](https://open.aminer.cn/open/article?id=5965cf249ed5db41ed4f52bf)
      - publication_1.zip ~ publication_14.zip
 
+Please put the downloaded data at a dataset directory
+
 ## Directory structure
-Please put the dataset files shown below.
+Files in the dataset directory are shown below.
 
 ```
+.
+├── DBLP-Citation-network-V15.json
+└── PST
+    ├── paper-xml
+    │   ├── 53e99792b7602d9701f57e77.xml
+    │   ├── 53e99796b7602d9701f5d380.xml
+    │   ├── 6584f922939a5f408236fc36.xml
+    │   ├──  ........
+    │   └── 65922fe2939a5f40826ca612.xml
+    ├── paper_source_gen_by_rule.json
+    ├── paper_source_trace_test_wo_ans.json
+    ├── paper_source_trace_train_ans.json
+    ├── paper_source_trace_valid_wo_ans.json
+    ├── submission_example_test.json
+    └── submission_example_valid.json 
 ```
 
 
 ## Pre-process 
-- 0-1 process_kddcup_data.py 
-  - Extracts data from the DBLP dataset.
+```
+$ <Inside container /works>
+$ cd preprocess
+```
 
+Extracts data from the DBLP dataset. 
 
-- 0-2 xml_parser.py (0-1)
-  - Parses XML files from the provided train, validation, and test datasets as well as the DBLP dataset to extract titles, abstracts, keywords, organizations, venues, context, etc.
+```
+$ poetry run python process_kddcup_data.py
+```
 
-- 0-3 oagbert_title_gen.py (0-2)
-  - Generates paper titles for missing values in the test dataset for the final submission.
+Parses XML files from the provided train, validation, and test datasets as well as the DBLP dataset to extract titles, abstracts, keywords, organizations, venues, context, etc.
 
-- 0-4 dblp_feature.py (0-1)
-  - Creates paper metadata features using the DBLP dataset and XML files. This script is based on the public baseline code available at https://github.com/THUDM/paper-source-trace/blob/main/rf/process_data.py
-  
+```
+$ poetry run pytohn xml_parser.py
+```
 
-- 0-5 dblp_feature_2.py (0-1)
-  - Modifies dblp_feature.py  
+Generates paper titles for missing values in the test dataset for the final submission.
 
-- 0-6 sciber_encode_3.py (0-3)
-  - Performs SciBERT encoding for each sentence of the title, abstract, keywords, organization, venue, and context, which are outputs from xml_parser.py. It also calculates cosine similarities between the target paper and the source paper using each feature.  
+```
+$ poetry run python oagbert_title_gen.py
+```
 
-- 0-7 nb/feature_post_process.ipynb (0-3)
-  - Adjusts cosine similarities.
+#### Feature generation (Fill context feature)
+Fill paper information using [Open Academic Graph](https://www.aminer.cn/oag-2-1). Before executing the following notebook, please download OAG dataset from [Open Academic Graph](https://www.aminer.cn/oag-2-1). 
 
-- 0-8 feature_generation/Fill_paper_info_by_OAG.ipynb (0-3)
-  - Refer to feature_generation/README.md for details.  
+```
+Fill_paper_info_by_OAG.ipynb
+```
 
-- 0-9 feature_generation/OAGBERT_embedding_cossim.ipynb (0-3)
-  - Refer to feature_generation/README.md for details.   
+#### Note 
+- The original OAG dataset is divided into small size dataset because we execute the code on a limited memory in our implementation by using the following command.
+```
+split -l 1000000 -d --additional-suffix=.json v3.1_oag_publication_X.json v3.1_oag_publication_X_ 
+```
+- "context\_feature" indicates train_context.csv and test_pub_context.csv.
 
-- 0-10 oag_bert.py (0-3)
-  - Encodes papers using the OAGBERT model and calculates the cosine similarity between the target and source papers.
-  
-## First Stage
-- 1-1 cross_encoder.py (0-3)
-  - Executes the cross-encoder model using the sentence-transformers library. We use the SciBERT model. The command to run this is `poetry run python cross_encoder.py --ubm --output_dir ce/default --train --prediction`.
-  - Implements 5-fold cross-validation. GroupKFold.
+## First stage
+Executes the cross-encoder model using the sentence-transformers library. We use the SciBERT model with 5-fold cross-validation using GroupKFold.
+```
+$ <Inside container /works>
+$ cd first_stage
+$ poetry run python cross_encoder.py --ubm --output_dir ce/default --train --prediction
+```
 
-- run_ce.sh
-  - The entry point for cross_encoder.py.
-  
 ## Second stage
-- 2-1 nb/catboost_4.ipynb
-  - Feature 0601 (baseline) (0-3/0-4/0-6/0-8/1-1)
 
-- 2-2 nb/catboost_5_feature_wihout_emb.ipynb
-  - Feature feat_without_emb (0-3/0-4/0-8/0-10/1-1)
+```
+$ <Inside container /works>
+$ cd second_stage
+```
 
-- 2-3 nb/catboost6_with_oag_clean.ipynb
-  - Feature oag_clean (0-3/0-5/0-6/0-7/0-8/0-9/1-1)
+### DBLP based feature
+Creates paper metadata features using the DBLP dataset and XML files. This script is based on the public baseline code available at https://github.com/THUDM/paper-source-trace/blob/main/rf/process_data.py
 
-- 2-4 classifier.py (2-1/2-2)
-  - Excecutes binary classification models. Catboost / LightGBM / RandomForest / SVM.
-  - Implements 5-fold cross-validation. GroupKFold.
+```
+$ poetry run python dblp_feature.py
+```
 
-- 2-5 classifier_weight.py (classifier v2) (2-3)
-  - Modified version of classifier.py.  
-- run_classifier.sh
-  - The entry point for classifier.py and classifier_weight.py.
+And modified version of dblp_feature.py
+
+```
+$ poetry run python dblp_feature_2.py
+```
+
+### SciBERT-encode based feature
+
+Performs SciBERT encoding for each sentence of the title, abstract, keywords, organization, venue, context, and so on, which are outputs from xml_parser.py. It also calculates cosine similarities between the target paper and the source paper using each feature.  
+```
+$ poetry run python sciber_encode_3.py
+```
+
+### OAGBERT based feature
+
+Calculate OAG-BERT-based cosine similarity feature after filling context featureb using the following notebook.
+```
+OAGBERT_embedding_cossim.ipynb
+``` 
+
+Encodes papers using the OAGBERT model and calculates the cosine similarity between the target and source papers. This script creates another version of OAGBERT feature.
+```
+poetry run python oagbert.py 
+```
+
+### Generate Feature 
+
+Run following notebook to format features.  
+
+```
+feature_generate4.ipynb
+```
+
+```
+feature_generate5_feature_without_emb.ipynb
+```
+
+```
+feature_generate6_with_oag.ipynb
+feature_post_process.ipynb
+```
+
+Now, we have the following 4-types of features in the `output` directory.
+- output/0601
+- output/dblp_title_2_oag
+- output/dblp_title_2_oag_clean
+- output/feat_without_emb
+
+### Run classifier
+
+Excecutes binary classification models. CatBoost, LightGBM,  RandomForest and SVM.Implements 5-fold cross-validation using GroupKFold.
+Here, we train 6 models. 2 CatBoost, 2 LightGBM, 1 RandomForest, and 1 SVM.
+
+```
+$ poetry run python classifier.py --model_name catboost_0 --input_dir ../output/0601/ --trial_name catboost_0
+$ poetry run python classifier.py --model_name lightgbm_binary --input_dir ../output/0601/ --trial_name lgbm_binary
+$ poetry run python classifier.py --model_name random_forest --input_dir ../output/0601/ --trial_name rf
+$ poetry run python classifier.py --model_name svm --input_dir ../output/feat_without_emb --trial_name svm_feat_without_emb --fill
+$ poetry run python classifier_weight.py --model_name catboost_0 --input_dir ../output/dblp_title_2_oag_clean/ --trial_name catboost_0_dblp_2_clean
+$ poetry run python classifier_weight.py --model_name lightgbm_binary --input_dir ../output/dblp_title_2_oag_clean/ --trial_name lgbm_dblp_2_clean
+```
 
 ## Ensemble
- - Ensemble
-   - nb/ensemble_lb0413_oag_clean.ipynb
-     - Catboost / LightGBM / RandomForest (2-1/2-4)
-     - Support Vector Machine (2-2/2-4)
-     - Catboost / LightGBM (2-5)
-   - Ensemble method: average
+Run the following notebook to ensemble the results of the classifiers.
+```
+ensemble_oag_clean.ipynb
+```
+
+Now we have the final submission file in the `submit` directory.

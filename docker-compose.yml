@@ -1,0 +1,13 @@
+version: "3"
+services:
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kddcup2024-pst
+    image: kddcup2024-pst
+    volumes:
+      - $PWD:/works
+    working_dir: /works
+    tty: true
+    runtime: nvidia
