@@ -1414,7 +1414,7 @@ def main():
 
     df_test_pub_context = prepare_bert_input_all(
         data_dir="../dataset/PST/",
-        hit_from_dblp_dir="data",
+        hit_from_dblp_dir="../data",
         debug=debug,
         mode="test_pub",
     )
@@ -1422,7 +1422,7 @@ def main():
 
     df_train_context = prepare_bert_input_all(
         data_dir="../dataset/PST/",
-        hit_from_dblp_dir="data",
+        hit_from_dblp_dir="../data",
         debug=debug,
         n_negative_sample=-1,
         mode="train",
