@@ -105,7 +105,7 @@ Fill paper information using [Open Academic Graph](https://www.aminer.cn/oag-2-1
 Fill_paper_info_by_OAG.ipynb
 ```
 
-## First stage
+## First stage (train and test prediction)
 Executes the cross-encoder model using the sentence-transformers library. We use the SciBERT model with 5-fold cross-validation using GroupKFold.
 ```
 $ <Inside container /works>
@@ -175,7 +175,7 @@ Now, we have the following 4-types of features in the `output` directory.
 - output/dblp_title_2_oag_clean
 - output/feat_without_emb
 
-### Run classifieres
+### Run classifieres (train and test prediction)
 
 Excecutes binary classification models. CatBoost, LightGBM,  RandomForest and SVM.Implements 5-fold cross-validation using GroupKFold.
 Here, we train 6 models. 2 CatBoost, 2 LightGBM, 1 RandomForest, and 1 SVM.
