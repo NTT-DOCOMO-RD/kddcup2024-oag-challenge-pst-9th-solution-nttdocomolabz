@@ -110,7 +110,7 @@ Executes the cross-encoder model using the sentence-transformers library. We use
 ```
 $ <Inside container /works>
 $ cd first_stage
-$ poetry run python cross_encoder.py --ubm --output_dir ce/default --train --prediction
+$ poetry run python cross_encoder.py --ubm --output_dir ../ce/default --train --prediction
 ```
 
 ## Second stage
@@ -130,14 +130,14 @@ $ poetry run python dblp_feature.py
 And modified version of dblp_feature.py
 
 ```
-$ poetry run python dblp_feature_2.py
+$ poetry run python dblp_feature2.py
 ```
 
 ### SciBERT-encode based feature
 
 Performs SciBERT encoding for each sentence of the title, abstract, keywords, organization, venue, context, and so on, which are outputs from xml_parser.py. It also calculates cosine similarities between the target paper and the source paper using each feature.  
 ```
-$ poetry run python sciber_encode_3.py
+$ poetry run python scibert_encode_3.py
 ```
 
 ### OAGBERT based feature

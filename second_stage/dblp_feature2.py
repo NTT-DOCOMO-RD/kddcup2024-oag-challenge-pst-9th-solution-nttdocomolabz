@@ -344,7 +344,7 @@ def extract_train_features():
     year_list = []
 
     # paper_info_more = load_json("../dataset/", "paper_info_hit_from_dblp.json")
-    paper_info_more = load_json("data", "paper_info_hit_from_dblp_test_pub.json")
+    paper_info_more = load_json("../data", "paper_info_hit_from_dblp_test_pub.json")
 
     for i, item in tqdm(enumerate(all_id), total=len(all_id)):
         process_data = Process_data(data_dic[i], "train", paper_info_more)
@@ -378,7 +378,7 @@ def extract_valid_features(mode_df=True):
         data_dic = json.load(read_file)
     all_id = [item["_id"] for item in data_dic]
     # paper_info_more = load_json("../dataset/", "paper_info_hit_from_dblp.json")
-    paper_info_more = load_json("data", "paper_info_hit_from_dblp_test_pub.json")
+    paper_info_more = load_json("../data", "paper_info_hit_from_dblp_test_pub.json")
 
     total_data_dic = {}
     total_data = []
@@ -479,11 +479,11 @@ def extract_test_pub_features(mode_df=True):
 def main():
     os.makedirs("../data", exist_ok=True)
     df_test_pub_dblp = extract_test_pub_features()
-    df_test_pub_dblp.to_csv("../data/df_test_pub_dblp_title.csv", index=False)
+    df_test_pub_dblp.to_csv("../data/df_test_pub_dblp_title_2.csv", index=False)
     df_train_dblp = extract_train_features()
     df_train_dblp.to_csv("../data/df_train_dblp_title_2.csv", index=False)
-    df_test_dblp = extract_valid_features()
-    df_test_dblp.to_csv("../data/df_test_dblp_title_2.csv", index=False)
+    # df_test_dblp = extract_valid_features()
+    # df_test_dblp.to_csv("../data/df_test_dblp_title_2.csv", index=False)
 
 
 if __name__ == "__main__":

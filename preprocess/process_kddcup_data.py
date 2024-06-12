@@ -25,7 +25,7 @@ DATA_TRACE_DIR = "../dataset"
 def extract_paper_info_from_dblp():
     data_dir = join(DATA_TRACE_DIR, "PST")
     papers_train = utils.load_json(data_dir, "paper_source_trace_train_ans.json")
-    papers_valid = utils.load_json(data_dir, "paper_source_trace_valid_wo_ans.json")
+    # papers_valid = utils.load_json(data_dir, "paper_source_trace_valid_wo_ans.json")
     papers_test_pub = utils.load_json(data_dir, "paper_source_trace_test_wo_ans.json")
 
     paper_dict_open = {}
@@ -47,7 +47,7 @@ def extract_paper_info_from_dblp():
             paper_dict_open[paper_tmp["id"]] = paper_tmp
 
     paper_dict_hit = dd(dict)
-    for paper in tqdm(papers_train + papers_valid + papers_test_pub):
+    for paper in tqdm(papers_train + papers_test_pub):
         cur_pid = paper["_id"]
         ref_ids = paper.get("references", [])
         pids = [cur_pid] + ref_ids
@@ -84,7 +84,7 @@ def extract_paper_info_from_dblp():
             }
 
     print("number of papers after filtering", len(paper_dict_hit))
-    os.makedirs("data", exist_ok=True)
+    os.makedirs("../data", exist_ok=True)
     utils.dump_json(paper_dict_hit, "../data", "paper_info_hit_from_dblp_test_pub.json")
 
 
