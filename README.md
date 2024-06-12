@@ -1,4 +1,7 @@
-# KDDCUP 2024 OAG-Challenge PST solution
+# KDDCUP 2024 OAG-Challenge PST 9th solution NTTDOCOMOLABZ
+
+This repository is the team NTTDOCOMOLABZ's solution for [KDDCUP 2024 OAG-Challeng Task 3 PST](https://www.biendata.xyz/competition/pst_kdd_2024/). We achieved 9th place in the conpetition. Overview of our solution is shown as follows.
+
 ## Authors
 
 - NTTDOCMOLABZ
@@ -7,7 +10,10 @@
   - yukko08
 
 ## Solution Overview
-figure goes here
+
+We adopted a two-stage approach to address the problem. In the first stage, we employed a cross-encoder model integrated with SciBERT to determine whether the source paper is among the most significant references. In the second stage, we utilized the features derived from both the target and source papers, along with the output from the first stage, to feed into several binary classifiers for prediction. Finally, we aggregated the results of these classifiers using an ensemble method to enhance the overall accuracy and robustness of our solution.
+
+![Solution pipeline](./pipeline.png)
 
 ## Requires
 - Linux (Our team used Amazon linux 2)
@@ -31,10 +37,10 @@ $ <Inside-container> poetry install
   - OAG V3.1 dataset Publication data available at [here](https://open.aminer.cn/open/article?id=5965cf249ed5db41ed4f52bf)
      - publication_1.zip ~ publication_14.zip
 
-Please put the downloaded data at a dataset directory
+Please put the downloaded data at a `dataset` directory
 
 ## Directory structure
-Files in the dataset directory are shown below.
+Files in the `dataset` directory are shown below.
 
 ```
 .
@@ -163,7 +169,7 @@ Now, we have the following 4-types of features in the `output` directory.
 - output/dblp_title_2_oag_clean
 - output/feat_without_emb
 
-### Run classifier
+### Run classifieres
 
 Excecutes binary classification models. CatBoost, LightGBM,  RandomForest and SVM.Implements 5-fold cross-validation using GroupKFold.
 Here, we train 6 models. 2 CatBoost, 2 LightGBM, 1 RandomForest, and 1 SVM.
