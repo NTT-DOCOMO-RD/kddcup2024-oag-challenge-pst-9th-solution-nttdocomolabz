@@ -1446,9 +1446,9 @@ def main():
     # print(df_test_context)
 
     # post process
-    if debug:
-        df_train_context.to_csv(f"{output_dir}/train_context.csv", index=False)
-        # df_test_context.to_csv(f"{output_dir}/test_context.csv", index=False)
+    # if debug:
+    #    df_train_context.to_csv(f"{output_dir}/train_context.csv", index=False)
+    # df_test_context.to_csv(f"{output_dir}/test_context.csv", index=False)
 
     # print("post process")
     # text = df_test_context[df_test_context["pid"] == "61cacea45244ab9dcb0ca982"][
@@ -1487,7 +1487,7 @@ def main():
     #    f"../script/data_ochiai_san_2/df_test_context_filled_keywords.csv"
     # )
 
-    df_train_context = pd.read_csv(f"{output_dir}/train_context.csv")
+    # df_train_context = pd.read_csv(f"{output_dir}/train_context.csv")
 
     # for col in [
     #     "title",
@@ -1520,7 +1520,7 @@ def main():
     #         # df_test_context[col].isnull().sum(),
     #     )
 
-    #     df_train_context.to_csv(f"{output_dir}/train_context.csv", index=False)
+    df_train_context.to_csv(f"{output_dir}/train_context.csv", index=False)
     # df_test_context.to_csv(f"{output_dir}/test_context.csv", index=False)
 
 

@@ -45,6 +45,12 @@ Files in the `dataset` directory are shown below.
 ```
 .
 ├── DBLP-Citation-network-V15.json
+├── OAG
+│   ├── v3.1_oag_publication_1_00.gz
+│   ├── v3.1_oag_publication_1_00.json
+│   ├──  .......
+│   ├── v3.1_oag_publication_14.gz
+│   └── v3.1_oag_publication_14.json
 └── PST
     ├── paper-xml
     │   ├── 53e99792b7602d9701f57e77.xml
@@ -59,6 +65,13 @@ Files in the `dataset` directory are shown below.
     ├── submission_example_test.json
     └── submission_example_valid.json 
 ```
+
+#### Note 
+- The original OAG dataset is divided into small size dataset because we execute the code on a limited memory in our implementation by using the following command.
+```
+$ split -l 1000000 -d --additional-suffix=.json v3.1_oag_publication_X.json v3.1_oag_publication_X_ 
+```
+- "context\_feature" indicates train_context.csv and test_pub_context.csv.
 
 
 ## Pre-process 
@@ -91,13 +104,6 @@ Fill paper information using [Open Academic Graph](https://www.aminer.cn/oag-2-1
 ```
 Fill_paper_info_by_OAG.ipynb
 ```
-
-#### Note 
-- The original OAG dataset is divided into small size dataset because we execute the code on a limited memory in our implementation by using the following command.
-```
-split -l 1000000 -d --additional-suffix=.json v3.1_oag_publication_X.json v3.1_oag_publication_X_ 
-```
-- "context\_feature" indicates train_context.csv and test_pub_context.csv.
 
 ## First stage
 Executes the cross-encoder model using the sentence-transformers library. We use the SciBERT model with 5-fold cross-validation using GroupKFold.
@@ -143,7 +149,7 @@ OAGBERT_embedding_cossim.ipynb
 
 Encodes papers using the OAGBERT model and calculates the cosine similarity between the target and source papers. This script creates another version of OAGBERT feature.
 ```
-poetry run python oagbert.py 
+$ poetry run python oagbert.py 
 ```
 
 ### Generate Feature 
