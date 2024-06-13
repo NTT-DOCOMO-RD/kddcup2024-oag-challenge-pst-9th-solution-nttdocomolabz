@@ -11,7 +11,7 @@ This repository is the team NTTDOCOMOLABZ's solution for [KDDCUP 2024 OAG-Challe
 
 ## Solution Overview
 
-We adopted a two-stage approach to address the problem. In the first stage, we employed a cross-encoder model integrated with SciBERT to determine whether the source paper is among the most significant references. In the second stage, we utilized the features derived from both the target and source papers, along with the output from the first stage, to feed into several binary classifiers for prediction. Finally, we aggregated the results of these classifiers using an ensemble method to enhance the overall accuracy and robustness of our solution.
+We adopted a two-stage approach to address the competition task. In the first stage, we employed a cross-encoder model integrated with SciBERT to determine whether the source paper is among the most significant references. In the second stage, we utilized the features derived from both the target and source papers, along with the output from the first stage, to feed into several binary classifiers for prediction. Finally, we aggregated the results of these classifiers using an ensemble method to enhance the overall accuracy and robustness of our solution.
 
 ![Solution pipeline](./pipeline.png)
 
@@ -31,7 +31,7 @@ $ <Inside-container> poetry install
   - https://www.dropbox.com/scl/fi/namx1n55xzqil4zbkd5sv/PST.zip?rlkey=impcbm2acqmqhurv2oj0xxysx&dl=1
   - https://open-data-set.oss-cn-beijing.aliyuncs.com/oag-benchmark/kddcup-2024/PST/PST-test-public.zip
 
-We used paper attribute datasets that are permited for use in this competion , as described [here](https://www.biendata.xyz/competition/pst_kdd_2024/data/)
+We used paper attribute datasets that are permited for use in this competion, as described [here](https://www.biendata.xyz/competition/pst_kdd_2024/data/)
 
 - DBLP dataset
   - DBLP-Citation-network V15 available at [here](https://open.aminer.cn/open/article?id=655db2202ab17a072284bc0c).
@@ -52,7 +52,6 @@ Files in the `dataset` directory are shown below.
 │   ├── v3.1_oag_publication_1_00.gz
 │   ├── v3.1_oag_publication_1_00.json
 │   ├──  .......
-│   ├── v3.1_oag_publication_14.gz
 │   └── v3.1_oag_publication_14.json
 └── PST
     ├── paper-xml
