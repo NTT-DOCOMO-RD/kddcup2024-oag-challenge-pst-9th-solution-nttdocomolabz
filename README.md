@@ -30,6 +30,9 @@ $ <Inside-container> poetry install
 - Provided PST dataset available at the [competion page](https://www.biendata.xyz/competition/pst_kdd_2024/data/)
   - https://www.dropbox.com/scl/fi/namx1n55xzqil4zbkd5sv/PST.zip?rlkey=impcbm2acqmqhurv2oj0xxysx&dl=1
   - https://open-data-set.oss-cn-beijing.aliyuncs.com/oag-benchmark/kddcup-2024/PST/PST-test-public.zip
+
+We used paper attribute datasets that are permited for use in this competion , as described [here](https://www.biendata.xyz/competition/pst_kdd_2024/data/)
+
 - DBLP dataset
   - DBLP-Citation-network V15 available at [here](https://open.aminer.cn/open/article?id=655db2202ab17a072284bc0c).
   
@@ -99,7 +102,7 @@ $ poetry run python oagbert_title_gen.py
 ```
 
 #### Feature generation (Fill context feature)
-Fill paper information using [Open Academic Graph](https://www.aminer.cn/oag-2-1). Before executing the following notebook, please download OAG dataset from [Open Academic Graph](https://www.aminer.cn/oag-2-1). 
+Fill paper information using [Open Academic Graph](https://open.aminer.cn/open/article?id=5965cf249ed5db41ed4f52bf). Before executing the following notebook, please download OAG dataset from [Open Academic Graph](https://open.aminer.cn/open/article?id=5965cf249ed5db41ed4f52bf). 
 
 ```
 Fill_paper_info_by_OAG.ipynb
