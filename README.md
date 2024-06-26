@@ -1,6 +1,6 @@
-# KDDCUP 2024 OAG-Challenge PST 9th solution NTTDOCOMOLABZ
+# KDDCUP 2024 OAG-Challenge PST ~~9th~~ 8th solution NTTDOCOMOLABZ
 
-This repository is the team NTTDOCOMOLABZ's solution for [KDDCUP 2024 OAG-Challeng Task 3 PST](https://www.biendata.xyz/competition/pst_kdd_2024/). We achieved 9th place in the conpetition. Overview of our solution is shown as follows.
+This repository is the team NTTDOCOMOLABZ's solution for [KDDCUP 2024 OAG-Challeng Task 3 PST](https://www.biendata.xyz/competition/pst_kdd_2024/). We achieved 9th place in the conpetition. (and finally 8th place). Overview of our solution is shown as follows.
 
 ## Authors
 
@@ -198,3 +198,13 @@ ensemble_oag_clean.ipynb
 ```
 
 Now we have the final submission file in the `submit` directory.
+
+## Checkpoints
+The output of the pre-process is data.zip.
+The checkpoints of the first stage are ce.zip-0 ~ ce.zip-5.
+Because the file size is large, I split it using the split command
+```
+split -b 500M -d ce.zip ce.zip-
+```
+
+The output file of the second stage is classifier_output.zip.
